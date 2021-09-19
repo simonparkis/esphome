@@ -12,7 +12,7 @@ wifi:
     password: !secret AccessPointPassword
   
   manual_ip:
-    static_ip: 192.168.1.111
+    static_ip: !secret ip_bedroom_tv
     subnet: 255.255.255.0
     gateway: 192.168.1.1
     

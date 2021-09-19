@@ -8,7 +8,7 @@ wifi:
   password: !secret ParkisPassword
   
   manual_ip:
-    static_ip: 192.168.1.55
+    static_ip: !secret ip_garage_door
     subnet: 255.255.255.0
     gateway: 192.168.1.1
 
@@ -65,7 +65,7 @@ cover:
       - cover.template.publish:
           id: garage_door
           current_operation: OPENING
-      - delay: 20s
+      - delay: 19s
       - cover.template.publish:
           id: garage_door
           current_operation: IDLE

@@ -12,7 +12,7 @@ wifi:
     password: !secret AccessPointPassword
 
   manual_ip:
-    static_ip: 192.168.1.16
+    static_ip: !secret ip_doorbell
     subnet: 255.255.255.0
     gateway: 192.168.1.1
 

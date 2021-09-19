@@ -3,7 +3,6 @@ substitutions:
   esphome_name: lamp-sofia
   friendly_name: Lamp Sofia
   hotspot_ssid: Lamp Sofia
-  ip_address: 192.168.1.8
 
 esphome:
   name: ${esphome_name}
@@ -16,7 +15,7 @@ wifi:
     - ssid: !secret ParkisSSID
       password: !secret ParkisPassword
   manual_ip:
-    static_ip: ${ip_address}
+    static_ip: !secret ip_lamp_sofia
     gateway: 192.168.1.1
     subnet: 255.255.255.0
   

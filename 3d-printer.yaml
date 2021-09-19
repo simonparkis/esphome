@@ -13,7 +13,7 @@ wifi:
     password: !secret AccessPointPassword
 
   manual_ip:
-    static_ip: 192.168.1.14
+    static_ip: !secret ip_3d_printer
     gateway: 192.168.1.1
     subnet: 255.255.255.0
     

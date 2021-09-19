@@ -3,7 +3,6 @@ substitutions:
   esphome_name: heater-joseph
   friendly_name: Joseph Heater
   hotspot_ssid: Joseph Heater
-  ip_address: 192.168.1.17
 
 
 esphome:
@@ -17,7 +16,7 @@ wifi:
   password: !secret PrimaryPassword
   
   manual_ip:
-    static_ip: ${ip_address}
+    static_ip: !secret ip_heater_joseph
     gateway: 192.168.1.1
     subnet: 255.255.255.0
 
