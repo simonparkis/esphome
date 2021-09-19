@@ -1,0 +1,87 @@
+esphome:
+  name: garage-door
+  platform: ESP8266
+  board: esp01_1m
+              
+wifi:
+  ssid: !secret ParkisSSID
+  password: !secret ParkisPassword
+  
+  manual_ip:
+    static_ip: 192.168.1.55
+    subnet: 255.255.255.0
+    gateway: 192.168.1.1
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "garage_door"
+    password: !secret AccessPointPassword
+
+captive_portal:
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+
+ota:
+
+switch:
+  - platform: gpio
+    pin: GPIO12
+    id: relay
+
+binary_sensor:
+  - platform: gpio
+    pin: 
+      number: GPIO14
+      mode: INPUT_PULLUP
+      inverted: TRUE
+    id: reed_switch
+    filters:
+      - delayed_on: 200ms
+      - delayed_off: 300ms
+    on_press:
+      then:
+        cover.template.publish:
+          id: garage_door
+          current_operation: IDLE
+      
+      
+cover:
+  - platform: template
+    name: "Garage Door"
+    lambda: |-
+      if (id(reed_switch).state) {
+        return COVER_CLOSED;
+      } else {
+        return COVER_OPEN;
+      }
+    open_action:
+      - switch.turn_on: relay
+      - delay: 500ms
+      - switch.turn_off: relay
+      - cover.template.publish:
+          id: garage_door
+          current_operation: OPENING
+      - delay: 20s
+      - cover.template.publish:
+          id: garage_door
+          current_operation: IDLE
+      
+    close_action:
+      - switch.turn_on: relay
+      - delay: 500ms
+      - switch.turn_off: relay
+      - cover.template.publish:
+          id: garage_door
+          current_operation: CLOSING
+
+    stop_action:
+      - switch.turn_on: relay
+      - delay: 500ms
+      - switch.turn_off: relay
+
+    device_class: garage
+    id: garage_door

@@ -1,0 +1,96 @@
+esphome:
+  name: lamp-switch
+  platform: ESP8266
+  board: esp01_1m
+
+  on_loop:
+    if:
+      condition:
+        and:
+          - api.connected
+          - switch.is_off: relay
+      then:
+        - switch.turn_on: relay
+        - binary_sensor.template.publish:
+            id: api_recovery
+            state: ON
+
+wifi:
+  ssid: !secret ParkisSSID
+  password: !secret ParkisPassword
+  
+  ap:
+    ssid: "LampSwitch"
+    password: !secret AccessPointPassword
+
+  manual_ip:
+    static_ip: 192.168.1.86
+    gateway: 192.168.1.1
+    subnet: 255.255.255.0
+
+captive_portal:
+
+api:
+  services:
+    - service: recovery_off
+      then:
+        - binary_sensor.template.publish:
+            id: api_recovery
+            state: OFF
+
+logger:
+
+ota:
+
+binary_sensor:
+  - platform: template
+    name: "API Recovery"
+    id: api_recovery
+  - platform: template
+    name: "Lamp Dimmer"
+    id: lamp_dimmer
+  - platform: template
+    id: dim_toggle
+    name: "Lamp Dim Toggle"
+  - platform: gpio
+    pin:
+      number: GPIO14
+      mode: INPUT_PULLUP
+      inverted: True
+    id: button
+    on_click:
+      if:
+        condition:
+          api.connected:
+        then:
+          homeassistant.service:
+            service: esphome.lamp_toggle
+        else:
+          switch.toggle: relay
+
+    on_press:
+      binary_sensor.template.publish:
+        id: lamp_dimmer
+        state: ON
+
+    on_release:
+      - binary_sensor.template.publish:
+          id: lamp_dimmer
+          state: OFF
+      - if:
+          condition:
+            binary_sensor.is_on: dim_toggle
+          then:
+            binary_sensor.template.publish:
+              id: dim_toggle
+              state: OFF
+          else:
+            binary_sensor.template.publish:
+              id: dim_toggle
+              state: ON
+
+switch:
+  - platform: gpio
+    pin: GPIO12
+    id: relay
+    restore_mode: ALWAYS_ON

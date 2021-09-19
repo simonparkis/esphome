@@ -1,0 +1,40 @@
+esphome:
+  name: 3d-printer
+  platform: ESP8266
+  board: esp01_1m
+
+
+wifi:
+  ssid: !secret ParkisSSID
+  password: !secret ParkisPassword
+  
+  ap:
+    ssid: "3D Printer"
+    password: !secret AccessPointPassword
+
+  manual_ip:
+    static_ip: 192.168.1.14
+    gateway: 192.168.1.1
+    subnet: 255.255.255.0
+    
+captive_portal:
+
+api:
+
+logger:
+
+ota:
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: GPIO5
+    id: button
+    on_state:
+          switch.toggle: relay
+switch:
+  - platform: gpio
+    pin: GPIO4
+    id: relay
+    name: 3D Printer
+    restore_mode: ALWAYS_ON

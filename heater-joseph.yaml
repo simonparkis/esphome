@@ -1,0 +1,47 @@
+substitutions:
+  device_name: heater_joseph
+  esphome_name: heater-joseph
+  friendly_name: Joseph Heater
+  hotspot_ssid: Joseph Heater
+  ip_address: 192.168.1.17
+
+
+esphome:
+  name: ${esphome_name}
+  platform: ESP8266
+  board: esp01_1m
+  esp8266_restore_from_flash: no
+
+wifi:
+  ssid: !secret PrimarySSID
+  password: !secret PrimaryPassword
+  
+  manual_ip:
+    static_ip: ${ip_address}
+    gateway: 192.168.1.1
+    subnet: 255.255.255.0
+
+  ap:
+    ssid: ${hotspot_ssid}
+    password: !secret AccessPointPassword
+
+logger:
+
+api:
+
+ota:
+
+switch:
+  - platform: gpio
+    pin: GPIO4
+    id: relay
+    name: Joseph Heater
+    
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: GPIO5
+    on_state:
+      then:
+        - switch.toggle: relay
+    id: toggle_switch

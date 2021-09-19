@@ -1,0 +1,31 @@
+esphome:
+  name: bedroom-tv
+  platform: ESP8266
+  board: nodemcuv2
+
+wifi:
+  ssid: !secret ParkisSSID
+  password: !secret ParkisPassword
+
+  ap:
+    ssid: "bedroom_tv"
+    password: !secret AccessPointPassword
+  
+  manual_ip:
+    static_ip: 192.168.1.111
+    subnet: 255.255.255.0
+    gateway: 192.168.1.1
+    
+captive_portal:
+
+logger:
+
+ota:
+
+api:
+
+binary_sensor:
+  - platform: status
+    name: 'Bedroom TV'
+    id: bedroom_tv
+    device_class: ''

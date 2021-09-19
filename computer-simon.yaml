@@ -1,0 +1,31 @@
+esphome:
+  name: computer-simon
+  platform: ESP32
+  board: esp32dev
+
+wifi:
+  ssid: !secret ParkisSSID
+  password: !secret ParkisPassword
+
+  ap:
+    ssid: "computer_simon"
+    password: !secret AccessPointPassword
+  
+  manual_ip:
+    static_ip: 192.168.1.133
+    subnet: 255.255.255.0
+    gateway: 192.168.1.1
+    
+captive_portal:
+
+logger:
+
+ota:
+
+api:
+
+binary_sensor:
+  - platform: status
+    name: 'Computer Simon'
+    id: computer_simon
+    device_class: ''

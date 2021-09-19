@@ -1,0 +1,31 @@
+esphome:
+  name: frontroom-tv
+  platform: ESP8266
+  board: nodemcuv2
+
+wifi:
+  ssid: !secret ParkisSSID
+  password: !secret ParkisPassword
+
+  ap:
+    ssid: "frontroom_tv"
+    password: !secret AccessPointPassword
+    
+  manual_ip:
+    static_ip: 192.168.1.70
+    subnet: 255.255.255.0
+    gateway: 192.168.1.1
+
+captive_portal:
+
+logger:
+
+ota:
+
+api:
+
+binary_sensor:
+  - platform: status
+    name: 'FrontRoom TV'
+    id: frontroom_tv
+    device_class: ''

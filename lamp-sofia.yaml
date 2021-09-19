@@ -1,0 +1,63 @@
+substitutions:
+  device_name: lamp_sofia
+  esphome_name: lamp-sofia
+  friendly_name: Lamp Sofia
+  hotspot_ssid: Lamp Sofia
+  ip_address: 192.168.1.8
+
+esphome:
+  name: ${esphome_name}
+  platform: ESP8266
+  board: esp01_1m
+
+wifi:
+  reboot_timeout: 0s
+  networks:
+    - ssid: !secret ParkisSSID
+      password: !secret ParkisPassword
+  manual_ip:
+    static_ip: ${ip_address}
+    gateway: 192.168.1.1
+    subnet: 255.255.255.0
+  
+  ap:
+    ssid: ${hotspot_ssid}
+    password: !secret AccessPointPassword
+
+captive_portal:
+
+api:
+  reboot_timeout: 0s
+
+logger:
+
+web_server:
+  port: 80
+
+ota:
+
+output:
+  - platform: esp8266_pwm
+    id: output_red
+    pin: GPIO4
+  - platform: esp8266_pwm
+    id: output_green
+    pin: GPIO12
+  - platform: esp8266_pwm
+    id: output_blue
+    pin: GPIO14
+  - platform: esp8266_pwm
+    id: output_white
+    pin: GPIO5
+
+light:
+  - platform: rgbw
+    name: ${friendly_name}
+    red: output_red
+    green: output_green
+    blue: output_blue
+    white: output_white
+    color_interlock: true
+    restore_mode: ALWAYS_ON
+    effects:
+      - random:

@@ -1,0 +1,53 @@
+esphome:
+  name: doorbell
+  platform: ESP32
+  board: esp32dev
+
+wifi:
+  ssid: !secret ParkisSSID
+  password: !secret ParkisPassword
+
+  ap:
+    ssid: "doorbell"
+    password: !secret AccessPointPassword
+
+  manual_ip:
+    static_ip: 192.168.1.16
+    subnet: 255.255.255.0
+    gateway: 192.168.1.1
+
+captive_portal:
+
+logger:
+
+ota:
+
+api:
+
+interval:
+  - interval: 1min
+    then:
+      if:
+        condition:
+          not:
+            api.connected
+        then:
+          - switch.turn_on: chime
+      
+  
+
+binary_sensor:
+  - platform: gpio
+    name: "Doorbell"
+    pin:
+      number: GPIO0
+      inverted: False
+      mode: INPUT_PULLDOWN
+    filters:
+      - delayed_off: 6s
+
+switch:
+  - platform: gpio
+    name: "Doorbell Chime"
+    id: chime
+    pin: GPIO4
