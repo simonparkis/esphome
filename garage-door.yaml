@@ -82,6 +82,9 @@ cover:
       - switch.turn_on: relay
       - delay: 500ms
       - switch.turn_off: relay
+      - cover.template.publish:
+          id: garage_door
+          current_operation: IDLE
 
     device_class: garage
     id: garage_door
