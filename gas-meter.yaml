@@ -1,0 +1,61 @@
+esphome:
+  name: gas-meter
+  platform: ESP32
+  board: esp32dev
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+
+ota:
+
+wifi:
+  ssid: !secret ParkisSSID
+  password: !secret ParkisPassword
+  
+  manual_ip:
+    static_ip: !secret ip_computer_zoey
+    subnet: 255.255.255.0
+    gateway: 192.168.1.1
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Gas Meter"
+    password: !secret AccessPointPassword
+
+captive_portal:
+
+output:
+  - platform: gpio
+    pin: GPIO2
+    id: pulse_led
+
+sensor:
+  - platform: pulse_meter
+    name: 'Gas Meter'
+    unit_of_measurement: 'm³'
+    state_class: measurement
+    device_class: gas
+    icon: mdi:flash-outline
+    accuracy_decimals: 3
+    pin: GPIO12
+    internal_filter: 100ms
+    id: gas_meter
+    filters:
+      - multiply: 0.01
+    total:
+      name: "Gas Total"
+      unit_of_measurement: "m³"
+      id: gas_total
+      accuracy_decimals: 3
+      filters:
+        - multiply: 0.01
+      on_value:
+        then:
+          - output.turn_on:
+              id: pulse_led
+          - delay: 0.5s
+          - output.turn_off:
+              id: pulse_led
