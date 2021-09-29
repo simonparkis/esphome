@@ -16,7 +16,7 @@ wifi:
   password: !secret ParkisPassword
   
   manual_ip:
-    static_ip: !secret ip_computer_zoey
+    static_ip: !secret ip_gas_meter
     subnet: 255.255.255.0
     gateway: 192.168.1.1
 

@@ -30,9 +30,6 @@ api:
 
 logger:
 
-web_server:
-  port: 80
-
 ota:
 
 output:
