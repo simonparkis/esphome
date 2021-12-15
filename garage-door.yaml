@@ -42,11 +42,11 @@ binary_sensor:
     filters:
       - delayed_on: 200ms
       - delayed_off: 300ms
-    on_press:
-      then:
-        cover.template.publish:
-          id: garage_door
-          current_operation: IDLE
+    #on_press:
+    #  then:
+    #    cover.template.publish:
+    #      id: garage_door
+    #      current_operation: IDLE
       
       
 cover:
@@ -62,29 +62,29 @@ cover:
       - switch.turn_on: relay
       - delay: 500ms
       - switch.turn_off: relay
-      - cover.template.publish:
-          id: garage_door
-          current_operation: OPENING
-      - delay: 19s
-      - cover.template.publish:
-          id: garage_door
-          current_operation: IDLE
+     # - cover.template.publish:
+    #      id: garage_door
+    #      current_operation: OPENING
+    #  - delay: 19s
+    #  - cover.template.publish:
+    #      id: garage_door
+    #      current_operation: IDLE
       
     close_action:
       - switch.turn_on: relay
       - delay: 500ms
       - switch.turn_off: relay
-      - cover.template.publish:
-          id: garage_door
-          current_operation: CLOSING
+    #  - cover.template.publish:
+    #      id: garage_door
+    #      current_operation: CLOSING
 
     stop_action:
       - switch.turn_on: relay
       - delay: 500ms
       - switch.turn_off: relay
-      - cover.template.publish:
-          id: garage_door
-          current_operation: IDLE
+    #  - cover.template.publish:
+    #      id: garage_door
+    #      current_operation: IDLE
 
     device_class: garage
     id: garage_door
