@@ -1,8 +1,8 @@
 substitutions:
-  device_name: lamp_simon
-  esphome_name: lamp-simon
-  friendly_name: Lamp Simon
-  hotspot_ssid: Lamp Simon
+  device_name: lamp_theo
+  esphome_name: lamp-theo
+  friendly_name: Lamp Theo
+  hotspot_ssid: Lamp Theo
 
 esphome:
   name: ${esphome_name}
@@ -15,7 +15,7 @@ wifi:
     - ssid: !secret ParkisSSID
       password: !secret ParkisPassword
   manual_ip:
-    static_ip: !secret ip_lamp_simon
+    static_ip: !secret ip_lamp_theo
     gateway: 192.168.1.1
     subnet: 255.255.255.0
   

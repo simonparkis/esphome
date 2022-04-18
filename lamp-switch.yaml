@@ -64,7 +64,9 @@ binary_sensor:
           api.connected:
         then:
           homeassistant.service:
-            service: esphome.lamp_toggle
+            service: light.toggle
+            data:
+              entity_id: light.lamp
         else:
           switch.toggle: relay
 
