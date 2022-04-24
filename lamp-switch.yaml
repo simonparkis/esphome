@@ -3,18 +3,6 @@ esphome:
   platform: ESP8266
   board: esp01_1m
 
-  on_loop:
-    if:
-      condition:
-        and:
-          - api.connected
-          - switch.is_off: relay
-      then:
-        - switch.turn_on: relay
-        - binary_sensor.template.publish:
-            id: api_recovery
-            state: ON
-
 wifi:
   ssid: !secret ParkisSSID
   password: !secret ParkisPassword
@@ -31,27 +19,12 @@ wifi:
 captive_portal:
 
 api:
-  services:
-    - service: recovery_off
-      then:
-        - binary_sensor.template.publish:
-            id: api_recovery
-            state: OFF
 
 logger:
 
 ota:
 
 binary_sensor:
-  - platform: template
-    name: "API Recovery"
-    id: api_recovery
-  - platform: template
-    name: "Lamp Dimmer"
-    id: lamp_dimmer
-  - platform: template
-    id: dim_toggle
-    name: "Lamp Dim Toggle"
   - platform: gpio
     pin:
       number: GPIO14
@@ -63,36 +36,34 @@ binary_sensor:
         condition:
           api.connected:
         then:
-          homeassistant.service:
-            service: light.toggle
-            data:
-              entity_id: light.lamp
+          - switch.turn_on: relay
+          - homeassistant.event:
+              event: esphome.lamp_press
+              data:
+                message: Lamp Switch Pressed
         else:
           switch.toggle: relay
-
-    on_press:
-      binary_sensor.template.publish:
-        id: lamp_dimmer
-        state: ON
-
+    on_double_click:
+      homeassistant.event:
+        event: esphome.lamp_doublepress
+        data:
+          message: Lamp Switch Double Pressed
+    on_multi_click:
+      timing:
+        - ON for at least 0.3s
+      then:
+        homeassistant.event:
+          event: esphome.lamp_hold
+          data:
+            message: Lamp Switch Held
     on_release:
-      - binary_sensor.template.publish:
-          id: lamp_dimmer
-          state: OFF
-      - if:
-          condition:
-            binary_sensor.is_on: dim_toggle
-          then:
-            binary_sensor.template.publish:
-              id: dim_toggle
-              state: OFF
-          else:
-            binary_sensor.template.publish:
-              id: dim_toggle
-              state: ON
-
+      homeassistant.event:
+        event: esphome.lamp_release
+        data:
+          message: Lamp Switch Released
+          
 switch:
   - platform: gpio
     pin: GPIO12
     id: relay
-    restore_mode: ALWAYS_ON
+    restore_mode: ALWAYS_OFF

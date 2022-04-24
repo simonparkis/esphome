@@ -1,0 +1,80 @@
+esphome:
+  name: lamp-switch-simon
+  platform: ESP8266
+  board: esp01_1m
+
+
+wifi:
+  ssid: !secret ParkisSSID
+  password: !secret ParkisPassword
+  
+  ap:
+    ssid: "Lamp Switch Simon"
+    password: !secret AccessPointPassword
+
+  manual_ip:
+    static_ip: !secret ip_lamp_switch_simon
+    gateway: 192.168.1.1
+    subnet: 255.255.255.0
+    
+  reboot_timeout: 0s
+  
+captive_portal:
+
+api:
+
+logger:
+
+ota:
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: GPIO5
+    id: button
+    
+    on_multi_click:
+      - timing:
+          - ON for at least 0.5s
+        then:
+          - homeassistant.event:
+              event: esphome.lamp_simon_hold
+              data:
+                message: Lamp Switch Simon Held
+          - wait_until:
+              binary_sensor.is_off: button
+          - homeassistant.event:
+              event: esphome.lamp_simon_release
+              data:
+                message: Lamp Switch Simon Released
+      - timing:
+          - ON for at most 1s
+          - OFF for at most 0.3s
+          - ON for at most 1s
+          - OFF for at least 0.2s
+        then:
+          homeassistant.event:
+            event: esphome.lamp_simon_doublepress
+            data:
+              message: Lamp Switch Simon Double Pressed
+      - timing:
+          - ON for at most 1s
+          - OFF for at least 0.5s
+        then:
+          if:
+            condition:
+              api.connected:
+            then:
+              - switch.turn_on: relay
+              - homeassistant.event:
+                  event: esphome.lamp_simon_press
+                  data:
+                    message: Lamp Switch Simon Pressed
+            else:
+              switch.toggle: relay
+          
+switch:
+  - platform: gpio
+    pin: GPIO4
+    id: relay
+    restore_mode: ALWAYS_OFF
