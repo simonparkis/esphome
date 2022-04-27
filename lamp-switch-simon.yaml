@@ -77,4 +77,5 @@ switch:
   - platform: gpio
     pin: GPIO4
     id: relay
+    name: Lamp Simon
     restore_mode: ALWAYS_OFF
