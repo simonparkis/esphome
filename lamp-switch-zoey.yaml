@@ -1,5 +1,5 @@
 esphome:
-  name: lamp-switch-simon
+  name: lamp-switch-zoey
   platform: ESP8266
   board: esp01_1m
 
@@ -13,7 +13,7 @@ wifi:
     password: !secret AccessPointPassword
 
   manual_ip:
-    static_ip: !secret ip_lamp_switch_simon
+    static_ip: !secret ip_lamp_switch_zoey
     gateway: 192.168.1.1
     subnet: 255.255.255.0
     
@@ -26,28 +26,29 @@ api:
 logger:
 
 ota:
+  password: "94c55380fd609e2726563c737140962e"
 
 binary_sensor:
   - platform: gpio
     pin:
       number: GPIO5
     id: button
-    name: lamp_button_simon
+    name: lamp_button_zoey
     
     on_multi_click:
       - timing:
           - ON for at least 0.5s
         then:
           - homeassistant.event:
-              event: esphome.lamp_simon_hold
+              event: esphome.lamp_zoey_hold
               data:
-                message: Lamp Switch Simon Held
+                message: Lamp Switch Zoey Held
           - wait_until:
               binary_sensor.is_off: button
           - homeassistant.event:
-              event: esphome.lamp_simon_release
+              event: esphome.lamp_zoey_release
               data:
-                message: Lamp Switch Simon Released
+                message: Lamp Switch Zoey Released
       - timing:
           - ON for at most 1s
           - OFF for at most 0.3s
@@ -55,9 +56,9 @@ binary_sensor:
           - OFF for at least 0.2s
         then:
           homeassistant.event:
-            event: esphome.lamp_simon_doublepress
+            event: esphome.lamp_zoey_doublepress
             data:
-              message: Lamp Switch Simon Double Pressed
+              message: Lamp Switch Zoey Double Pressed
       - timing:
           - ON for at most 1s
           - OFF for at least 0.5s
@@ -68,9 +69,9 @@ binary_sensor:
             then:
               - switch.turn_on: relay
               - homeassistant.event:
-                  event: esphome.lamp_simon_press
+                  event: esphome.lamp_zoey_press
                   data:
-                    message: Lamp Switch Simon Pressed
+                    message: Lamp Switch Zoey Pressed
             else:
               switch.toggle: relay
           
@@ -78,5 +79,5 @@ switch:
   - platform: gpio
     pin: GPIO4
     id: relay
-    name: Lamp Simon
+    name: Lamp Zoey
     restore_mode: ALWAYS_OFF
