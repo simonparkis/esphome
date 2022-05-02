@@ -34,7 +34,7 @@ switch:
   - platform: gpio
     pin: GPIO4
     id: relay
-    name: Joseph Heater
+    name: Heater Joseph
     
 binary_sensor:
   - platform: gpio
