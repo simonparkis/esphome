@@ -31,6 +31,8 @@ wifi:
 captive_portal:
     
 api:
+  encryption:
+    key: HJrevqiIOwyvZ5iFuHDl6ukkhgZ12uGrPYO0Po35i94=
   services:
     - service: toggle
       then:

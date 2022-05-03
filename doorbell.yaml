@@ -23,6 +23,8 @@ logger:
 ota:
 
 api:
+  encryption:
+    key: HJrevqiIOwyvZ5iFuHDl6ukkhgZ12uGrPYO0Po35i94=
 
 interval:
   - interval: 1min

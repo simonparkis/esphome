@@ -26,6 +26,8 @@ wifi:
 captive_portal:
 
 api:
+  encryption:
+    key: HJrevqiIOwyvZ5iFuHDl6ukkhgZ12uGrPYO0Po35i94=
   reboot_timeout: 0s
 
 logger:
