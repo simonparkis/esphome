@@ -1,0 +1,28 @@
+esphome:
+  name: bed-sensor-simon
+
+esp8266:
+  board: esp01_1m
+
+wifi:
+  ssid: !secret ParkisSSID
+  password: !secret ParkisPassword
+
+  ap:
+    ssid: "bed_sensor-simon"
+    password: !secret AccessPointPassword
+    
+captive_portal:
+
+logger:
+
+ota:
+
+api:
+
+binary_sensor:
+  - platform: gpio
+    pin: GPIO15
+    name: 'bedsensor_simon'
+    id: bedsensor_simon
+    device_class: ''
