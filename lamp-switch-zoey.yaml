@@ -31,6 +31,9 @@ ota:
   password: "94c55380fd609e2726563c737140962e"
 
 binary_sensor:
+  - platform: homeassistant
+    id: light_status
+    entity_id: light.lamp_zoey
   - platform: gpio
     pin:
       number: GPIO5
@@ -69,11 +72,25 @@ binary_sensor:
             condition:
               api.connected:
             then:
+              - if:
+                  condition:
+                    binary_sensor.is_on: light_status
+                  then:
+                    - homeassistant.service:
+                        service: input_boolean.turn_off
+                        data:
+                          entity_id: input_boolean.lamp_override_zoey
+                  else:
+                    - homeassistant.service:
+                        service: input_boolean.turn_on
+                        data:
+                          entity_id: input_boolean.lamp_override_zoey
               - switch.turn_on: relay
-              - homeassistant.event:
-                  event: esphome.lamp_zoey_press
+              - homeassistant.service:
+                  service: light.toggle
                   data:
-                    message: Lamp Switch Zoey Pressed
+                    entity_id: light.lamp_zoey
+
             else:
               switch.toggle: relay
           

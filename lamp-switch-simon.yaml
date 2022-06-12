@@ -30,6 +30,9 @@ logger:
 ota:
 
 binary_sensor:
+  - platform: homeassistant
+    entity_id: light.lamp_simon
+    id: light_status
   - platform: gpio
     pin:
       number: GPIO5
@@ -68,11 +71,25 @@ binary_sensor:
             condition:
               api.connected:
             then:
+              - if:
+                  condition:
+                    binary_sensor.is_on: light_status
+                  then:
+                    - homeassistant.service:
+                        service: input_boolean.turn_off
+                        data:
+                          entity_id: input_boolean.lamp_override_simon
+                  else:
+                    - homeassistant.service:
+                        service: input_boolean.turn_on
+                        data:
+                          entity_id: input_boolean.lamp_override_simon
               - switch.turn_on: relay
-              - homeassistant.event:
-                  event: esphome.lamp_simon_press
+              - homeassistant.service:
+                  service: light.toggle
                   data:
-                    message: Lamp Switch Simon Pressed
+                    entity_id: light.lamp_simon
+
             else:
               switch.toggle: relay
           
