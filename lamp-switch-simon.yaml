@@ -2,6 +2,7 @@ esphome:
   name: lamp-switch-simon
   platform: ESP8266
   board: esp01_1m
+  esp8266_restore_from_flash: true
 
 
 wifi:
@@ -24,7 +25,8 @@ captive_portal:
 api:
   encryption:
     key: HJrevqiIOwyvZ5iFuHDl6ukkhgZ12uGrPYO0Po35i94=
-
+  reboot_timeout: 0s
+  
 logger:
 
 ota:
@@ -98,4 +100,4 @@ switch:
     pin: GPIO4
     id: relay
     name: Lamp Simon
-    restore_mode: ALWAYS_OFF
+    restore_mode: RESTORE_DEFAULT_OFF
