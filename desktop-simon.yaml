@@ -1,5 +1,5 @@
 esphome:
-  name: computer-zoey
+  name: desktop-simon
   platform: ESP32
   board: esp32dev
 
@@ -28,7 +28,6 @@ api:
 
 binary_sensor:
   - platform: status
-    name: 'Laptop Zoey'
-    id: laptop_zoey
-    icon: mdi:laptop
+    name: 'Desktop Simon'
+    id: desktop_simon
     device_class: ''
