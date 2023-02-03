@@ -24,9 +24,9 @@ logger:
   level: info
 
 api:
-   password: !secret api_password  
-      
-   
+  encryption:
+    key: HJrevqiIOwyvZ5iFuHDl6ukkhgZ12uGrPYO0Po35i94=
+     
 ota:
    password: !secret ota_password
    safe_mode: True
