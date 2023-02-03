@@ -101,23 +101,23 @@ binary_sensor:
     #zone status
   - platform: template
     id: z1
-    name: "Front Room Motion"
+    name: "Motion FrontRoom"
     device_class: motion
   - platform: template
     id: z2
-    name: "Master Bedroom Motion"
+    name: "Motion Master DSC"
     device_class: motion
   - platform: template
     id: z3
-    name: "Living Room Motion"
+    name: "Motion LivingRoom"
     device_class: motion
   - platform: template
     id: z4
-    name: "Theo Room Motion"
+    name: "Motion Theo DSC"
     device_class: motion
   - platform: template
     id: z5
-    name: "Garage Motion"
+    name: "Motion Garage"
     device_class: motion
   - platform: template
     id: z6
@@ -125,7 +125,7 @@ binary_sensor:
     device_class: motion
   - platform: template
     id: z7
-    name: "Front Door"
+    name: "Door Front"
     device_class: door
     
     #zone alarm status
