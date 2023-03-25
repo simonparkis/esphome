@@ -23,6 +23,8 @@ api:
 binary_sensor:
   - platform: gpio
     pin: GPIO15
-    name: 'bedsensor_simon'
-    id: bedsensor_simon
+    name: 'bed_simon'
+    id: bed_simon
     device_class: ''
+    filters:
+      - delayed_off: 5s
