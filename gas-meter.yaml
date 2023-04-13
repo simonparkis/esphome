@@ -42,7 +42,7 @@ sensor:
     device_class: gas
     icon: mdi:flash-outline
     accuracy_decimals: 3
-    pin: GPIO12
+    pin: GPIO22
     internal_filter: 100ms
     id: gas_meter
     filters:
