@@ -38,7 +38,7 @@ sensor:
   - platform: pulse_meter
     name: 'Gas Meter'
     unit_of_measurement: 'm³'
-    state_class: measurement
+    state_class: total_increasing
     device_class: gas
     icon: mdi:flash-outline
     accuracy_decimals: 3
@@ -56,6 +56,7 @@ sensor:
       name: "Gas Total"
       unit_of_measurement: "m³"
       id: gas_total
+      icon: mdi:fire
       accuracy_decimals: 3
       filters:
         - multiply: 0.01
