@@ -1,6 +1,6 @@
 substitutions:
-  devicename: "mmwave_bedroom" 
-  upper_devicename: "mmwave_bedroom" 
+  devicename: "mmwave-bedroom" 
+  upper_devicename: "mmwave-bedroom" 
   update_time: 30s
 esphome:
   name: $devicename
@@ -51,11 +51,10 @@ wifi:
   ssid: !secret wifi_ssid
   password: !secret wifi_password
   power_save_mode: LIGHT
-#  manual_ip:
-#    static_ip: !secret ip_esp32mastbath
-#    gateway: !secret ip_gateway
-#    subnet: !secret ip_subnet
-#    dns1: !secret ip_dns1
+  manual_ip:
+    static_ip: 192.168.1.28
+    gateway: 192.168.1.1
+    subnet: 255.255.255.0
 uart:
   id: LD1125H_UART_BUS
   rx_pin: GPIO16  #For ESP32, you can use any pin, Recommend Use UART_2, Don't use UART_0, It might Cause Boot Fail or System Hang
