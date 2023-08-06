@@ -39,13 +39,14 @@ output:
 switch:
   - platform: output
     id: "relay"
-    name: "${device_name} Relay"
+    name: "${device_name}"
     output: "relay_output"
     restore_mode: RESTORE_DEFAULT_ON
 
 binary_sensor:
   - platform: gpio
-    name: "${device_name} Switch"
+    name: "${device_name}"
+    internal: true
     pin: GPIO4
     on_press:
       then:
@@ -60,6 +61,7 @@ sensor:
   - platform: ntc
     sensor: temp_resistance_reading
     name: "${device_name} Temperature"
+    internal: true
     unit_of_measurement: "°C"
     accuracy_decimals: 1
     icon: "mdi:thermometer"
@@ -83,6 +85,7 @@ sensor:
 
   - platform: adc
     name: "${device_name} Relay Supply Voltage"
+    internal: true
     pin: GPIO33
     attenuation: 11db
     filters:
@@ -102,13 +105,15 @@ sensor:
       unit_of_measurement: A
       accuracy_decimals: 3
       icon: mdi:flash-outline
+      internal: true
     voltage:
       name: "${device_name} Voltage"
       unit_of_measurement: V
       accuracy_decimals: 1
       icon: mdi:flash-outline
+      internal: true
     power:
-      name: "${device_name} Power"
+      name: "Power ${device_name}"
       unit_of_measurement: W
       id: power
       icon: mdi:flash-outline
@@ -119,7 +124,7 @@ sensor:
     change_mode_every: 2
     update_interval: 10s
   - platform: total_daily_energy
-    name: "${device_name} Daily energy consumed"
+    name: "Energy ${device_name}"
     power_id: power
     filters:
         - multiply: 0.001
