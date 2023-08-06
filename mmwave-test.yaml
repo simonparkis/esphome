@@ -1,6 +1,6 @@
 substitutions:
-  devicename: "mmwave-test" 
-  upper_devicename: "mmwave-test" 
+  devicename: "presence-theo" 
+  upper_devicename: "presence-theo" 
   update_time: 30s
 esphome:
   name: $devicename
