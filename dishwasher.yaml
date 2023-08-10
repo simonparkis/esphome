@@ -1,7 +1,7 @@
 substitutions:
   device_name: "dishwasher"
   # Higher value gives lower watt readout
-  current_res: "0.001"
+  current_res: "0.0001"
   # Lower value gives lower voltage readout
   voltage_div: "1925"
 
@@ -63,7 +63,7 @@ sensor:
     name: "${device_name} Temperature"
     internal: true
     unit_of_measurement: "°C"
-    accuracy_decimals: 1
+    accuracy_decimals: 2
     icon: "mdi:thermometer"
     calibration:
       b_constant: 3350
