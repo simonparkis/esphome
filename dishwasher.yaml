@@ -1,7 +1,7 @@
 substitutions:
   device_name: "dishwasher"
   # Higher value gives lower watt readout
-  current_res: "0.0001"
+  current_res: "0.001"
   # Lower value gives lower voltage readout
   voltage_div: "1925"
 
@@ -41,7 +41,7 @@ switch:
     id: "relay"
     name: "${device_name}"
     output: "relay_output"
-    restore_mode: RESTORE_DEFAULT_ON
+    restore_mode: ALWAYS_ON
 
 binary_sensor:
   - platform: gpio
