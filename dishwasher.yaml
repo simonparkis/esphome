@@ -1,7 +1,7 @@
 substitutions:
   device_name: "dishwasher"
   # Higher value gives lower watt readout
-  current_res: "0.001"
+  current_res: "0.005"
   # Lower value gives lower voltage readout
   voltage_div: "1925"
 
@@ -105,7 +105,7 @@ sensor:
       unit_of_measurement: A
       accuracy_decimals: 3
       icon: mdi:flash-outline
-      internal: true
+      internal: false
     voltage:
       name: "${device_name} Voltage"
       unit_of_measurement: V
@@ -123,7 +123,7 @@ sensor:
           then:
             - switch.turn_off: "relay"
     change_mode_every: 2
-    update_interval: 10s
+    update_interval: 2s
   - platform: total_daily_energy
     name: "Energy ${device_name}"
     power_id: power
