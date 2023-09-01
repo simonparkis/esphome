@@ -68,9 +68,10 @@ light:
       current:
         name: Shelly Dimmer 2 Light Current
       max_brightness: 750
-      min_brightness: 0
-      warmup_brightness: 250
+      min_brightness: 235
+      warmup_brightness: 18
       firmware:
         version: "51.6"
         update: false
       restore_mode: RESTORE_DEFAULT_OFF
+      default_transition_length: 0.2s
