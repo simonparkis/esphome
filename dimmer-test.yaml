@@ -5,6 +5,16 @@ esphome:
 esp8266:
   board: esp01_1m
 
+globals:
+  - id: my_global_bool
+    type: bool
+    restore_value: no
+    initial_value: 'false'
+  - id: my_global_float
+    type: float
+    restore_value: no
+    initial_value: '0.3'
+
 # Enable Home Assistant API
 api:
   encryption:
@@ -25,6 +35,11 @@ uart:
     tx_pin: 1
     rx_pin: 3
     baud_rate: 115200
+
+switch:
+# This is to restart the ESPHome device remotely
+  - platform: restart
+    name: "Restart"
 
 sensor:
   # NTC Temperature
@@ -60,7 +75,7 @@ sensor:
 light:
     - platform: shelly_dimmer
       name: Shelly Dimmer 2 Light
-      id: thislight
+      id: led
       power:
         name: Shelly Dimmer 2 Light Power
       voltage:
@@ -75,3 +90,73 @@ light:
         update: false
       restore_mode: RESTORE_DEFAULT_OFF
       default_transition_length: 0.2s
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: GPIO14
+      mode: INPUT
+    id: led_touch
+    filters:
+      - delayed_on: 20ms  
+      - delayed_off: 20ms 
+
+    on_click:
+      then:
+        - if:
+            condition:
+              light.is_off: led
+            then:
+              - light.turn_on: 
+                  id: led
+                  brightness: !lambda |-
+                    return id(my_global_float);
+              - lambda: |-
+                  id(my_global_bool) = (true);
+                  ESP_LOGD("main", "Global value brightness is: %f", id(my_global_float));
+            else:
+              light.turn_off: led
+             
+    on_press:
+      then:
+      - if:
+          condition: 
+              lambda: |-
+                return id(my_global_bool);
+# When above condition evaluates to true - Fade_up function else Fade_down
+          then:
+          - delay: 0.5s
+          - while:
+              condition:
+                binary_sensor.is_on: led_touch
+              then:
+                - light.dim_relative:
+                    id: led
+                    relative_brightness: 2%
+                    transition_length: 0.075s
+                - delay: 0.075s
+                - lambda: |-
+                    id(my_global_float) = id(led).current_values.get_brightness();
+                    ESP_LOGD("main", "Global value is: %f", id(my_global_float));
+          - lambda: |-
+              id(my_global_bool) = (false);
+          else:
+          - delay: 0.5s
+          - while:
+              condition:
+                and:
+                  - binary_sensor.is_on: led_touch
+# This is where I want to set minimum value so that touch sensor only allows 4% minimum
+                  - lambda: |-
+                      return {id(led).current_values.get_brightness() > 0.04};
+              then:
+                - light.dim_relative:
+                    id: led
+                    relative_brightness: -2%
+                    transition_length: 0.075s
+                - delay: 0.075s
+                - lambda: |-
+                    id(my_global_float) = id(led).current_values.get_brightness();
+                    ESP_LOGD("main", "Global value brightness is: %f", id(my_global_float));
+          - lambda: |-
+              id(my_global_bool) = (true);
