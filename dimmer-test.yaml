@@ -45,7 +45,7 @@ sensor:
   # NTC Temperature
   - platform: ntc
     sensor: temp_resistance_reading
-    name: ${device_name} temperature
+    name: Device Temperature
     unit_of_measurement: "°C"
     accuracy_decimals: 1
     icon: "mdi:thermometer"
@@ -60,7 +60,7 @@ sensor:
           - homeassistant.service:
               service: persistent_notification.create
               data:
-                title: Message from ${friendly_name}
+                title: Overtemperature
               data_template:
                 message: Switch turned off because temperature exceeded ${max_temp}°C
   - platform: resistance
@@ -74,14 +74,14 @@ sensor:
 
 light:
     - platform: shelly_dimmer
-      name: Shelly Dimmer 2 Light
+      name: Light
       id: led
       power:
-        name: Shelly Dimmer 2 Light Power
+        name: Power
       voltage:
-        name: Shelly Dimmer 2 Light Voltage
+        name: Voltage
       current:
-        name: Shelly Dimmer 2 Light Current
+        name: Current
       max_brightness: 750
       min_brightness: 235
       warmup_brightness: 18
@@ -89,7 +89,8 @@ light:
         version: "51.6"
         update: false
       restore_mode: RESTORE_DEFAULT_OFF
-      default_transition_length: 0.2s
+      default_transition_length: 0s
+      leading_edge: false
 
 binary_sensor:
   - platform: gpio
@@ -97,9 +98,10 @@ binary_sensor:
       number: GPIO14
       mode: INPUT
     id: led_touch
-    filters:
-      - delayed_on: 20ms  
-      - delayed_off: 20ms 
+    name: Push Button
+    #filters:
+    #  - delayed_on: 20ms  
+    #  - delayed_off: 20ms 
 
     on_click:
       then:
