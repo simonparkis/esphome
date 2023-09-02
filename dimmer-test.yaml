@@ -82,9 +82,9 @@ light:
         name: Voltage
       current:
         name: Current
-      max_brightness: 750
-      min_brightness: 235
-      warmup_brightness: 18
+      max_brightness: 850
+      min_brightness: 38
+      warmup_brightness: 100
       firmware:
         version: "51.6"
         update: false
