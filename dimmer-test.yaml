@@ -83,7 +83,7 @@ light:
       current:
         name: Current
       max_brightness: 850
-      min_brightness: 38
+      min_brightness: 245
       warmup_brightness: 100
       firmware:
         version: "51.6"
