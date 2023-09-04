@@ -41,6 +41,7 @@ binary_sensor:
       mode: INPUT_PULLUP
       inverted: TRUE
     id: reed_switch
+    name: Reed Switch
     filters:
       - delayed_on: 200ms
       - delayed_off: 300ms

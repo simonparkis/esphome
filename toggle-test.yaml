@@ -25,26 +25,47 @@ captive_portal:
 
 binary_sensor:
   - platform: homeassistant
-    name: "LED"
+    id: auto_garage
+    name: "Auto Garage"
     internal: false
-    entity_id: input_boolean.auto_garage_door
-    on_press:
+    entity_id: binary_sensor.reed_switch
+    publish_initial_state: true
+    on_state:
       then:
-        - switch.turn_on: led
-    on_release:
-      then:
-        - switch.turn_off: led
+        if:
+          condition: 
+            binary_sensor.is_on: auto_garage
+          then:
+            - switch.turn_off: led
+          else:
+            - switch.turn_on: led
   - platform: gpio
     name: "Switch"
     pin: GPIO4
-    on_press:
-      then:
-        - homeassistant.service:
-            service: homeassistant.toggle
-            data:
-              entity: input_boolean.auto_garage_door
-    filters:
-      - delayed_on_off: 20ms
+    on_click:
+      - min_length: 5ms
+        max_length: 200ms
+        then:
+          - homeassistant.service:
+              service: cover.toggle
+              data:
+                entity_id: cover.garage_door
+      - min_length: 250ms
+        max_length: 5s
+        then:
+          if:
+            condition:
+              binary_sensor.is_on: auto_garage
+            then:
+              - homeassistant.service:
+                  service: input_boolean.turn_off
+                  data:
+                    entity_id: input_boolean.auto_garage_door
+              - homeassistant.service:
+                  service: cover.open_cover
+                  data:
+                    entity_id: cover.garage_door
+
 
 output:
   - platform: gpio
