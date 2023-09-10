@@ -259,3 +259,13 @@ binary_sensor:
     name: ${upper_devicename} LD1125H Movement
     id: LD1125H_Mov_Binary
     device_class: motion  
+
+bluetooth_proxy:
+  active: true
+  cache_services: true
+
+esp32_ble_tracker:
+  scan_parameters:
+    interval: 1100ms
+    window: 1100ms
+    active: true
