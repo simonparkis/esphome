@@ -22,10 +22,15 @@ api:
 
 ota:
 
+captive_portal:
+
 wifi:
-  ssid: !secret wifi_ssid
+  ssid: test # !secret wifi_ssid
   password: !secret wifi_password
   reboot_timeout: 0s
+  ap:
+    ssid: "Dimmer"
+    password: "0427185940"
 
 logger:
     baud_rate: 0
